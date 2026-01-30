@@ -3,4 +3,4 @@
 #include "JamingwayGameplay.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, Jamingway, "Jamingway");
+IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, JamingwayGameplay, "JamingwayGameplay");

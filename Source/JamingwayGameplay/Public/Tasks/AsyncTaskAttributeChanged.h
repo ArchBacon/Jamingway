@@ -1,0 +1,41 @@
+﻿// Copyright 2020 Dan Kestranek.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
+#include "Kismet/BlueprintAsyncActionBase.h"
+#include "AsyncTaskAttributeChanged.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAttributeChanged, float, NewValue, float, OldValue);
+
+/**
+ * Blueprint node to automatically register a listener for all attribute changes in an AbilitySystemComponent.
+ * Useful to use in UI.
+ */
+UCLASS(BlueprintType, meta=(ExposedAsyncProxy = AsyncTask))
+class JAMINGWAYGAMEPLAY_API UAsyncTaskAttributeChanged : public UBlueprintAsyncActionBase
+{
+	GENERATED_BODY()
+	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChanged OnAttributeChanged;
+	
+	// Listens for an attribute changing.
+	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
+	static UAsyncTaskAttributeChanged* ListenForAttributeChange(UAbilitySystemComponent* AbilitySystemComponent, FGameplayAttribute Attribute);
+	
+	// You must call this function manually when you want the AsyncTask to end.
+	// For UMG Widgets, you would call it in the Widget's Destruct event.
+	UFUNCTION(BlueprintCallable)
+	void EndTask();
+
+protected:
+	UPROPERTY()
+	UAbilitySystemComponent* ASC;
+
+	FGameplayAttribute AttributeToListenFor;
+
+	void AttributeChanged(const FOnAttributeChangeData& Data);
+};
