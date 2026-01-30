@@ -12,6 +12,12 @@ class JAMINGWAYGAMEPLAY_API AGGBaseCharacter : public ACharacter
 public:
     AGGBaseCharacter();
 
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+    TSubclassOf<class UGGAttackComponent> AttackComponentType;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+    TObjectPtr<class UGGAttackComponent> AttackComponent;
+
 protected:
     virtual void BeginPlay() override;
 

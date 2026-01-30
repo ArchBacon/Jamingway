@@ -6,7 +6,7 @@
 #include "GGEnemyController.generated.h"
 
 UCLASS()
-class AGGEnemyController : public AAIController
+class JAMINGWAYGAMEPLAY_API AGGEnemyController : public AAIController
 {
     GENERATED_BODY()
 
