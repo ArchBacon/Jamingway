@@ -1,5 +1,8 @@
 # Visual Studio 2019 user specific files
 .vs/
+# Visual Code user specific files
+.vscode/
+.vsconfig
 
 # CLion user specific files
 .idea/
@@ -79,3 +82,14 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 _ReSharper.Caches/*
+
+# Editor build and run files
+build_editor.bat
+build_standalone.bat
+cook_content.bat
+generate.bat
+rootdir.bat
+run_editor.bat
+run_editor_standalone.bat
+run_standalone.bat
+vars.bat
