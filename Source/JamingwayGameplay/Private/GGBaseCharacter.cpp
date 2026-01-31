@@ -38,25 +38,28 @@ AGGBaseCharacter::AGGBaseCharacter()
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystem->AddAttributeSetSubobject(CharacterAttributes);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetMovementSpeedAttribute()).AddUObject(this, &AGGBaseCharacter::OnMovementSpeedChanged);
+
+	// Create Attack Component
+	AttackComponent = CreateDefaultSubobject<UGGAttackComponent>(TEXT("AttackComponent"));
 }
 
 void AGGBaseCharacter::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (AttackComponentType)
-    {
-        AttackComponent = NewObject<UGGAttackComponent>(this, AttackComponentType);
+	if (TargetComponentType)
+	{
+		TargetComponent = NewObject<UGGBaseTargetComponent>(this, TargetComponentType);
 
-        if (AttackComponent)
-        {
-            AttackComponent->RegisterComponent();
-        }
-    }
-    else
-    {
-        UE_LOG(LogJamingwayGameplay, Log, TEXT("Attack Component Type not specified"));
-    }
+		if (TargetComponent)
+		{
+			TargetComponent->RegisterComponent();
+		}
+	}
+	else
+	{
+		UE_LOG(LogJamingwayGameplay, Log, TEXT("Target Component Type not specified"));
+	}
 
 	if (TargetComponentType)
 	{

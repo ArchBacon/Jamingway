@@ -4,7 +4,6 @@
 
 AGGEnemyCharacter::AGGEnemyCharacter()
 {
-    TargetComponent = CreateDefaultSubObject<UGGEnemyTargetComponent>(TEXT("Target System"));
 }
 
 void AGGEnemyCharacter::BeginPlay()
