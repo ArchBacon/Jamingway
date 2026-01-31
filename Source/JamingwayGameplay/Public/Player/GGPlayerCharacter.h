@@ -23,6 +23,9 @@ public:
 	/** Player Camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* Camera;
+    /** Target System */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+    class UPlayerTargetComponent* TargetComponent;
 
 public:
     void PerformMove(float AxisX, float AxisY);

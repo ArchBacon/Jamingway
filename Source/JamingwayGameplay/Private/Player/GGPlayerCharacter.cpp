@@ -1,5 +1,6 @@
 #include "Player/GGPlayerCharacter.h"
 #include "Components/GGAttackComponent.h"
+#include "Components/GGPlayerTargetComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Log.h"
@@ -26,8 +27,9 @@ AGGPlayerCharacter::AGGPlayerCharacter()
 	// create the camera
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
-
 	Camera->SetFieldOfView(55.0f);
+
+	TargetComponent = CreateDefaultSubObject<UGGPlayerTargetComponent>(TEXT("Target System"));
 }
 
 void AGGPlayerCharacter::BeginPlay()
@@ -39,6 +41,11 @@ void AGGPlayerCharacter::BeginPlay()
 
 void AGGPlayerCharacter::PerformMove(float AxisX, float AxisY)
 {
+	if (TargetComponent)
+	{
+        Cast<UGGPlayerTargetComponent>(TargetComponent)->SetMoveInput(FVector2D(AxisX, AxisY));
+	}
+
 	// calculate the forward component of the input
 	FRotator FlatRot = GetControlRotation();
 	FlatRot.Pitch = 0.0f;

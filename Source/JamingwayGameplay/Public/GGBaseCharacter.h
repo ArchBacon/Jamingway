@@ -34,6 +34,12 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
     TObjectPtr<class UGGAttackComponent> AttackComponent;
 
+    /** Target */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target")
+    TSubclassOf<class UGGBaseTargetComponent> TargetComponentType;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target")
+    TObjectPtr<class UGGBaseTargetComponent> TargetComponent;
+
 protected:
     /** Overrides */
     virtual void BeginPlay() override;

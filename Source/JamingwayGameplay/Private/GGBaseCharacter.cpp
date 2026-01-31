@@ -1,5 +1,6 @@
 #include "GGBaseCharacter.h"
 #include "Components/GGAttackComponent.h"
+#include "Components/GGBaseTargetComponent.h"
 #include "Abilities/GGGameplayAbility.h"
 #include "AttributeSets/CharacterAttributeSet.h"
 #include "Components/CapsuleComponent.h"
@@ -56,6 +57,20 @@ void AGGBaseCharacter::BeginPlay()
     {
         UE_LOG(LogJamingwayGameplay, Log, TEXT("Attack Component Type not specified"));
     }
+
+	if (TargetComponentType)
+	{
+		TargetComponent = NewObject<UGGBaseTargetComponent>(this, TargetComponentType);
+
+		if (TargetComponent)
+		{
+			TargetComponent->RegisterComponent();
+		}
+	}
+	else
+	{
+		UE_LOG(LogJamingwayGameplay, Log, TEXT("Target Component Type not specified"));
+	}
 
 	// Set default values to the attribute sets
 	if (StartingAttributesEffectClass)
