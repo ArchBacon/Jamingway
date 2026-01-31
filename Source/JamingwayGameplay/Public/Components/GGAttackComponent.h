@@ -11,6 +11,9 @@ class JAMINGWAYGAMEPLAY_API UGGAttackComponent : public UActorComponent
     GENERATED_BODY()
 
 public: 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent , Category="Combat|Notifies")
+    void Attack();
+    virtual void Attack_Implementation();
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Combat|Notifies")
     void OnComboAttackSaveNotify();

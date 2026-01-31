@@ -16,24 +16,22 @@ class JAMINGWAYGAMEPLAY_API AGGBaseCharacter : public ACharacter, public IAbilit
 {
     GENERATED_BODY()
 
-    /** Abilities */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Ability, meta=(AllowPrivateAccess="true"))
-    UAbilitySystemComponent* AbilitySystem = nullptr;
-	
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Ability, meta=(AllowPrivateAccess="true"))
-    class UCharacterAttributeSet* CharacterAttributes;
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Ability, meta=(AllowPrivateAccess="true"))
-    TSubclassOf<class UGameplayEffect> StartingAttributesEffectClass;
-
 public:
     AGGBaseCharacter();
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-    TSubclassOf<class UGGAttackComponent> AttackComponentType;
-    
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+    /** Abilities */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Ability")
+    UAbilitySystemComponent* AbilitySystem = nullptr;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Ability")
+    class UCharacterAttributeSet* CharacterAttributes;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Ability")
+    TSubclassOf<class UGameplayEffect> StartingAttributesEffectClass;
+
+    /** Attack */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+    TSubclassOf<class UGGAttackComponent> AttackComponentType;  
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
     TObjectPtr<class UGGAttackComponent> AttackComponent;
 
 protected:

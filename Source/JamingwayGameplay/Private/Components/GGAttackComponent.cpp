@@ -10,3 +10,8 @@ void UGGAttackComponent::OnResetComboNotify_Implementation()
 {
     UE_LOG(LogJamingwayGameplay, Log, TEXT("ResetComboNotify"));
 }
+
+void UGGAttackComponent::Attack_Implementation()
+{
+    UE_LOG(LogJamingwayGameplay, Log, TEXT("Attack"));
+}
