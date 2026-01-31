@@ -28,8 +28,6 @@ AGGPlayerCharacter::AGGPlayerCharacter()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 	Camera->SetFieldOfView(55.0f);
-
-	TargetComponent = CreateDefaultSubObject<UGGPlayerTargetComponent>(TEXT("Target System"));
 }
 
 void AGGPlayerCharacter::BeginPlay()

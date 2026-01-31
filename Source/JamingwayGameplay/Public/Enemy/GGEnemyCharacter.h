@@ -13,9 +13,5 @@ public:
     AGGEnemyCharacter();
 
 public:
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
-    class UEnemyTargetComponent* TargetComponent;
-
-public:
     void BeginPlay() override;
 };

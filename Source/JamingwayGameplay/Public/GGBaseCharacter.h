@@ -29,10 +29,8 @@ public:
     TSubclassOf<class UGameplayEffect> StartingAttributesEffectClass;
 
     /** Attack */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
-    TSubclassOf<class UGGAttackComponent> AttackComponentType;  
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
-    TObjectPtr<class UGGAttackComponent> AttackComponent;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack", meta=(AllowPrivateAccess="true"))
+    class UGGAttackComponent* AttackComponent;
 
     /** Target */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target")
@@ -50,4 +48,7 @@ protected:
     
 public:
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystem; };
+
+    UFUNCTION(BlueprintCallable, Category = "Attack")
+    UGGAttackComponent* GetAttackComponent() const { return AttackComponent; }
 };
