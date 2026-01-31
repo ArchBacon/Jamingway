@@ -2,6 +2,8 @@
 
 #include "GGBaseCharacter.h"
 #include "Log.h"
+#include "Components/GGBaseTargetComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void UGGAttackComponent::OnComboAttackSaveNotify_Implementation()
 {
@@ -26,6 +28,17 @@ void UGGAttackComponent::OnResetComboNotify_Implementation()
 void UGGAttackComponent::Attack_Implementation()
 {
     UE_LOG(LogJamingwayGameplay, Log, TEXT("Attack"));
+
+    if (const auto Character = Cast<AGGBaseCharacter>(GetOwner()))
+    {
+        if (const auto Target = Character->TargetComponent->GetCurrentTarget())
+        {
+            auto TargetLoc = Target->GetActorLocation();
+            auto MeLoc = Character->GetActorLocation();
+            auto lookatme = UKismetMathLibrary::FindLookAtRotation(MeLoc, TargetLoc);
+            Character->SetActorRotation(lookatme);
+        }
+    }
 
     if (bIsAttacking)
     {

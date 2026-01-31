@@ -73,32 +73,35 @@ void AGGPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// get the current rotation
-	const FRotator OldRotation = m_PlayerCharacter->GetActorRotation();
-
-	// are we aiming with the mouse?
-	if (bUsingMouse && bCanUseMouseAim)
+	if (m_PlayerCharacter)
 	{
-		// get the cursor world location
-		FHitResult OutHit;
-		GetHitResultUnderCursorByChannel(MouseAimTraceChannel, true, OutHit);
+		const FRotator OldRotation = m_PlayerCharacter->GetActorRotation();
 
-		// find the aim rotation 
-		const FRotator AimRot = UKismetMathLibrary::FindLookAtRotation(m_PlayerCharacter->GetActorLocation(), OutHit.Location);
+		// are we aiming with the mouse?
+		if (bUsingMouse && bCanUseMouseAim)
+		{
+			// get the cursor world location
+			FHitResult OutHit;
+			GetHitResultUnderCursorByChannel(MouseAimTraceChannel, true, OutHit);
 
-		// save the aim angle
-		AimAngle = AimRot.Yaw;
+			// find the aim rotation 
+			const FRotator AimRot = UKismetMathLibrary::FindLookAtRotation(m_PlayerCharacter->GetActorLocation(), OutHit.Location);
 
-		// update the yaw, reuse the pitch and roll
-		m_PlayerCharacter->SetActorRotation(FRotator(OldRotation.Pitch, AimAngle, OldRotation.Roll));
+			// save the aim angle
+			AimAngle = AimRot.Yaw;
 
-	}
-	else
-	{
-		// use quaternion interpolation to blend between our current rotation
-		// and the desired aim rotation using the shortest path
-		const FRotator TargetRot = FRotator(OldRotation.Pitch, AimAngle, OldRotation.Roll);
+			// update the yaw, reuse the pitch and roll
+			m_PlayerCharacter->SetActorRotation(FRotator(OldRotation.Pitch, AimAngle, OldRotation.Roll));
 
-		m_PlayerCharacter->SetActorRotation(TargetRot);
+		}
+		else
+		{
+			// use quaternion interpolation to blend between our current rotation
+			// and the desired aim rotation using the shortest path
+			const FRotator TargetRot = FRotator(OldRotation.Pitch, AimAngle, OldRotation.Roll);
+
+			m_PlayerCharacter->SetActorRotation(TargetRot);
+		}
 	}
 }
 
