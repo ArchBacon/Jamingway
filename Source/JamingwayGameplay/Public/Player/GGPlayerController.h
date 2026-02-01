@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Respawn")
 	TSubclassOf<AGGPlayerCharacter> CharacterClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category ="Game", meta = (AllowPrivateAcces="True"))
+	bool bGamePaused = false;
+	
 protected:
     UFUNCTION()
     void OnPawnDestroyed(AActor* DestroyedActor);

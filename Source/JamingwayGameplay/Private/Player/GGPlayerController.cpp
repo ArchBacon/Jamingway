@@ -73,7 +73,7 @@ void AGGPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// get the current rotation
-	if (m_PlayerCharacter && !m_PlayerCharacter->HasHealthDroppedToZero())
+	if (m_PlayerCharacter && !m_PlayerCharacter->HasHealthDroppedToZero() && !bGamePaused)
 	{
 		const FRotator OldRotation = m_PlayerCharacter->GetActorRotation();
 
