@@ -73,7 +73,7 @@ void AGGPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// get the current rotation
-	if (m_PlayerCharacter)
+	if (m_PlayerCharacter && !m_PlayerCharacter->HasHealthDroppedToZero())
 	{
 		const FRotator OldRotation = m_PlayerCharacter->GetActorRotation();
 
@@ -159,6 +159,11 @@ void AGGPlayerController::OnPawnDestroyed(AActor* DestroyedActor)
 
 void AGGPlayerController::Move(const FInputActionValue& Value)
 {
+	if(m_PlayerCharacter && m_PlayerCharacter->HasHealthDroppedToZero())
+	{
+		return;
+	}
+
 	// save the input vector
 	FVector2D InputVector = Value.Get<FVector2D>();
 
@@ -168,6 +173,11 @@ void AGGPlayerController::Move(const FInputActionValue& Value)
 
 void AGGPlayerController::StickAim(const FInputActionValue& Value)
 {
+	if(m_PlayerCharacter && m_PlayerCharacter->HasHealthDroppedToZero())
+	{
+		return;
+	}
+
 	// get the input vector
 	FVector2D InputVector = Value.Get<FVector2D>();
 
@@ -177,6 +187,11 @@ void AGGPlayerController::StickAim(const FInputActionValue& Value)
 
 void AGGPlayerController::MouseAim(const FInputActionValue& Value)
 {
+	if(m_PlayerCharacter && m_PlayerCharacter->HasHealthDroppedToZero())
+	{
+		return;
+	}
+
 	// raise the mouse controls flag
 	if (bCanUseMouseAim)
 	{
@@ -188,12 +203,22 @@ void AGGPlayerController::MouseAim(const FInputActionValue& Value)
 
 void AGGPlayerController::Dash(const FInputActionValue& Value)
 {
+	if(m_PlayerCharacter && m_PlayerCharacter->HasHealthDroppedToZero())
+	{
+		return;
+	}
+
 	// route the input
 	DoDash();
 }
 
 void AGGPlayerController::LightAttack(const FInputActionValue& Value)
 {
+	if(m_PlayerCharacter && m_PlayerCharacter->HasHealthDroppedToZero())
+	{
+		return;
+	}
+
 	// route the input
 	DoLightAttack();
 }

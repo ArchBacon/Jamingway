@@ -45,10 +45,13 @@ protected:
     
     /** Event Responses */
     void OnMovementSpeedChanged(const FOnAttributeChangeData& Data) const;
+    virtual void OnHealthDroppedToZero(const FOnAttributeChangeData& Data) {/** Nothing to do here */}
     
 public:
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystem; };
 
     UFUNCTION(BlueprintCallable, Category = "Attack")
     UGGAttackComponent* GetAttackComponent() const { return AttackComponent; }
+    UFUNCTION(BlueprintCallable, Category = "Health")
+    virtual bool HasHealthDroppedToZero() const { return false; }
 };

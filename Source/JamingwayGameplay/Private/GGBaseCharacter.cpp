@@ -38,6 +38,7 @@ AGGBaseCharacter::AGGBaseCharacter()
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystem->AddAttributeSetSubobject(CharacterAttributes);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetMovementSpeedAttribute()).AddUObject(this, &AGGBaseCharacter::OnMovementSpeedChanged);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetHealthAttribute()).AddUObject(this, &AGGBaseCharacter::OnHealthDroppedToZero);
 
 	// Create Attack Component
 	AttackComponent = CreateDefaultSubobject<UGGAttackComponent>(TEXT("AttackComponent"));

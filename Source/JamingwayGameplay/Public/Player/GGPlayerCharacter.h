@@ -24,9 +24,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* Camera;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="JamingwayGameplay")
+    bool bHealthDroppedToZero;
+
+public:
+    void OnHealthDroppedToZero(const FOnAttributeChangeData& Data) override;
+
 public:
     void PerformMove(float AxisX, float AxisY);
     void PerformLightAttack();
+
+    bool HasHealthDroppedToZero() const override { return bHealthDroppedToZero; }
 
 protected:
     void BeginPlay() override;    
