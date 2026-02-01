@@ -5,7 +5,7 @@
 
 #include "GGTokenSystemComponent.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType, Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class UGGTokenSystemComponent : public UActorComponent
 {
     GENERATED_BODY()

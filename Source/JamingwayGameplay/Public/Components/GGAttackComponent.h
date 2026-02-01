@@ -47,6 +47,13 @@ public:
     int32 AttackTokensToReserve = 1;
 
 public:
+    //UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Combat|Notifies")
+    //FAttackResult AttackStart(AActor* AttackTarget);
+    //virtual FAttackResult AttackStart_Implementation(AActor* AttackTarget);
+    //UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Combat|Notifies")
+    //FAttackResult AttackEnd(AActor* AttackTarget);
+    //virtual FAttackResult AttackEnd_Implementation(AActor* AttackTarget);
+
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent , Category="Combat|Notifies")
     FAttackResult Attack(AActor* AttackTarget);
     virtual FAttackResult Attack_Implementation(AActor* AttackTarget);

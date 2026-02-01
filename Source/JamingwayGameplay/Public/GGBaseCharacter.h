@@ -38,8 +38,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target")
     TObjectPtr<class UGGBaseTargetComponent> TargetComponent;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
-    class UGGTokenSystemComponent* TokenSystem;
+    //UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+    //TObjectPtr<class UGGTokenSystemComponent> TokenSystem;
 
 protected:
     /** Overrides */

@@ -44,8 +44,8 @@ AGGBaseCharacter::AGGBaseCharacter()
 	// Create Attack Component
 	AttackComponent = CreateDefaultSubobject<UGGAttackComponent>(TEXT("AttackComponent"));
 
-	// Token System
-	TokenSystem = CreateDefaultSubobject<UGGTokenSystemComponent>(TEXT("Token System"));
+	//// Token System
+	//TokenSystem = CreateDefaultSubobject<UGGTokenSystemComponent>(TEXT("Buggy Token System"));
 }
 
 void AGGBaseCharacter::BeginPlay()
