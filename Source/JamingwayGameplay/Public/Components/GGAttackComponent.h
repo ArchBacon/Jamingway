@@ -15,6 +15,19 @@ public:
     TArray<TObjectPtr<UAnimMontage>> Montages = {};
 };
 
+USTRUCT(BlueprintType)
+struct FAttackResult
+{
+    GENERATED_BODY();
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="JamingwayGameplay")
+    bool AttackWasSuccessful;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="JamingwayGameplay")
+    bool AttackWasSaved;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="JamingwayGameplay")
+    float AttackMontageDuration;
+};
+
 UCLASS(BlueprintType, Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class JAMINGWAYGAMEPLAY_API UGGAttackComponent : public UActorComponent
 {
@@ -22,20 +35,21 @@ class JAMINGWAYGAMEPLAY_API UGGAttackComponent : public UActorComponent
 
     UPROPERTY()
     bool bSaveAttack = false;
-
     UPROPERTY()
     bool bIsAttacking = false;
-
     UPROPERTY()
     int AttackCount = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Ability, meta=(AllowPrivateAccess="true"))
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Ability)
     UAnimComboSet* AnimComboSet = nullptr;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="JamingwayGameplay")
+    int32 AttackTokensToReserve = 1;
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent , Category="Combat|Notifies")
-    void Attack();
-    virtual void Attack_Implementation();
+    FAttackResult Attack(AActor* AttackTarget);
+    virtual FAttackResult Attack_Implementation(AActor* AttackTarget);
 
     UFUNCTION(BlueprintCallable, Category="Combat|Notifies")
     void Reset();
@@ -50,8 +64,8 @@ public:
 
 private:
     UFUNCTION()
-    void PlayMontage(int MontageIndex) const;
+    TOptional<float> PlayMontage(int MontageIndex) const;
 
     UFUNCTION()
-    void PlayNextMontage();
+    TOptional<float> PlayNextMontage();
 };

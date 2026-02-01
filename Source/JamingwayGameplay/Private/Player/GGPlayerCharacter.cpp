@@ -1,5 +1,6 @@
 #include "Player/GGPlayerCharacter.h"
 #include "Components/GGAttackComponent.h"
+#include "Components/GGTokenSystemComponent.h"
 #include "Components/GGPlayerTargetComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -76,10 +77,10 @@ void AGGPlayerCharacter::PerformMove(float AxisX, float AxisY)
 	AddMovementInput(FlatRot.RotateVector(CamRightVector), AxisY);
 }
 
-void AGGPlayerCharacter::PerformLightAttack()
+void AGGPlayerCharacter::PerformLightAttack(AActor* AttackTarget)
 {
     if(AttackComponent)
     {
-        AttackComponent->Attack();
+        AttackComponent->Attack(AttackTarget);
     }
 }

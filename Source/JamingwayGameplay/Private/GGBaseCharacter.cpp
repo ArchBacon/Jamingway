@@ -4,6 +4,7 @@
 #include "Abilities/GGGameplayAbility.h"
 #include "AttributeSets/CharacterAttributeSet.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/GGTokenSystemComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Log.h"
@@ -42,6 +43,9 @@ AGGBaseCharacter::AGGBaseCharacter()
 
 	// Create Attack Component
 	AttackComponent = CreateDefaultSubobject<UGGAttackComponent>(TEXT("AttackComponent"));
+
+	// Token System
+	TokenSystem = CreateDefaultSubobject<UGGTokenSystemComponent>(TEXT("Token System"));
 }
 
 void AGGBaseCharacter::BeginPlay()

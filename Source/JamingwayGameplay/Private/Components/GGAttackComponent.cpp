@@ -1,5 +1,5 @@
 #include "Components/GGAttackComponent.h"
-
+#include "Components/GGTokenSystemComponent.h"
 #include "GGBaseCharacter.h"
 #include "Log.h"
 #include "Components/GGBaseTargetComponent.h"
@@ -25,29 +25,72 @@ void UGGAttackComponent::OnResetComboNotify_Implementation()
     bIsAttacking = false;
 }
 
-void UGGAttackComponent::Attack_Implementation()
+FAttackResult UGGAttackComponent::Attack_Implementation(AActor* AttackTarget)
 {
-    UE_LOG(LogJamingwayGameplay, Log, TEXT("Attack"));
+    UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Attack"), *GetOwner()->GetName());
 
-    if (const auto Character = Cast<AGGBaseCharacter>(GetOwner()))
+    const auto Character = Cast<AGGBaseCharacter>(GetOwner());
+    if (!Character)
     {
-        if (const auto Target = Character->TargetComponent->GetCurrentTarget())
+        // Unable to attack when we are not a Character
+        return {false, false, 0.0f};
+    }
+
+    if(Character->HasHealthDroppedToZero())
+    {
+        // Do nothing when you are dead!
+        return {false, false, 0.0f};
+    }
+
+    if(AttackTarget)
+    {
+        UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Current attack target: %s"), *GetOwner()->GetName(), *AttackTarget->GetName());
+
+        UGGTokenSystemComponent* TokenSystem = Cast<UGGTokenSystemComponent>(AttackTarget->FindComponentByClass(UGGTokenSystemComponent::StaticClass()));
+        if(TokenSystem)
         {
-            auto TargetLoc = Target->GetActorLocation();
-            auto MeLoc = Character->GetActorLocation();
-            auto lookatme = UKismetMathLibrary::FindLookAtRotation(MeLoc, TargetLoc);
-            Character->SetActorRotation(lookatme);
+            if(TokenSystem->CanReserveAttackToken(AttackTokensToReserve))
+            {
+                UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Start reserving tokens from: %s"), *GetOwner()->GetName(), *AttackTarget->GetName());
+                TokenSystem->ReserveAttackToken(AttackTokensToReserve);
+                UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Reserved tokens from: %s"), *GetOwner()->GetName(), *AttackTarget->GetName());
+            }
+            else
+            {
+                UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Unable to attack the target, no tokens left"), *GetOwner()->GetName());
+                // Unable to attack the target!
+                return {false, false, 0.0f};
+            }
         }
+        else
+        {
+            UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], No TokenSystem present on AttackTarget"), *GetOwner()->GetName());
+        }
+
+        auto TargetLoc = AttackTarget->GetActorLocation();
+        auto MeLoc = Character->GetActorLocation();
+        auto LookAtMe = UKismetMathLibrary::FindLookAtRotation(MeLoc, TargetLoc);
+
+        Character->SetActorRotation(LookAtMe);
     }
 
     if (bIsAttacking)
     {
+        UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Save Attack"), *GetOwner()->GetName());
         bSaveAttack = true;
-        return;
+        return {true, true, 0.0f};
     }
 
-    bIsAttacking = true;
-    PlayNextMontage();
+    auto result = PlayNextMontage();
+    if(result)
+    {
+        UE_LOG(LogJamingwayGameplay, Log, TEXT("[%s], Playing next montage, %s"), *GetOwner()->GetName(), *FString::SanitizeFloat(*result));
+        bIsAttacking = true;
+        return { true, false, *result };
+    }
+
+    // Dunno what happend ... 
+    return {false, false, 0.0f};
 }
 
 void UGGAttackComponent::Reset()
@@ -55,12 +98,12 @@ void UGGAttackComponent::Reset()
     OnResetComboNotify();
 }
 
-void UGGAttackComponent::PlayMontage(const int MontageIndex) const
+TOptional<float> UGGAttackComponent::PlayMontage(const int MontageIndex) const
 {
     if (AnimComboSet->Montages.Num() == 0)
     {
         UE_LOG(LogJamingwayGameplay, Error, TEXT("Animation Combo Sets need at least 1 animation."));
-        return;
+        return {};
     }
 
     const int Index = MontageIndex % AnimComboSet->Montages.Num();
@@ -68,12 +111,19 @@ void UGGAttackComponent::PlayMontage(const int MontageIndex) const
     const auto Character = Cast<AGGBaseCharacter>(GetOwner());
     if (Character && Montage)
     {
-        Character->PlayAnimMontage(Montage);
+        return Character->PlayAnimMontage(Montage);
     }
+
+    return {};
 }
 
-void UGGAttackComponent::PlayNextMontage()
+TOptional<float> UGGAttackComponent::PlayNextMontage()
 {
-    PlayMontage(AttackCount);
-    AttackCount++;
+    auto result = PlayMontage(AttackCount);
+    if(result)
+    {
+        AttackCount++;
+    }
+
+    return result;
 }

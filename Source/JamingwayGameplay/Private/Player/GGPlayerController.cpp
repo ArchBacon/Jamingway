@@ -1,6 +1,9 @@
 #include "Player/GGPlayerController.h"
 #include "Player/GGPlayerCharacter.h"
 
+#include "Components/GGBaseTargetComponent.h"
+#include "Components/GGTokenSystemComponent.h"
+
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "EnhancedInputComponent.h"
@@ -268,7 +271,14 @@ void AGGPlayerController::DoDash()
 
 void AGGPlayerController::DoLightAttack()
 {
-	m_PlayerCharacter->PerformLightAttack();
+	if (const auto Target = m_PlayerCharacter->TargetComponent->GetCurrentTarget())
+	{
+		m_PlayerCharacter->PerformLightAttack(Target);	
+	}
+	else
+	{
+		m_PlayerCharacter->PerformLightAttack(nullptr);
+	}
 }
 
 void AGGPlayerController::DoAoEAttack()

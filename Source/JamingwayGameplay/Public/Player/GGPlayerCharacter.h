@@ -2,14 +2,14 @@
 
 #include "CoreMinimal.h"
 #include "GGBaseCharacter.h"
-
+#include "TokenInterface.h"
 #include "GGPlayerCharacter.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
 
 UCLASS()
-class JAMINGWAYGAMEPLAY_API AGGPlayerCharacter : public AGGBaseCharacter
+class JAMINGWAYGAMEPLAY_API AGGPlayerCharacter : public AGGBaseCharacter, public ITokenInterface
 {
     GENERATED_BODY()
 
@@ -32,7 +32,7 @@ public:
 
 public:
     void PerformMove(float AxisX, float AxisY);
-    void PerformLightAttack();
+    void PerformLightAttack(AActor* AttackTarget);
 
     bool HasHealthDroppedToZero() const override { return bHealthDroppedToZero; }
 

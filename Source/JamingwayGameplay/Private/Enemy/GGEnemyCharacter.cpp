@@ -1,12 +1,12 @@
 #include "Enemy/GGEnemyCharacter.h"
 #include "Components/GGEnemyTargetComponent.h"
+#include "Components/GGTokenSystemComponent.h"
 #include "AttributeSets/CharacterAttributeSet.h"
 #include "Log.h"
 
 AGGEnemyCharacter::AGGEnemyCharacter()
     :bHealthDroppedToZero(false)
-{
-}
+{}
 
 void AGGEnemyCharacter::BeginPlay()
 {
