@@ -37,6 +37,9 @@ public:
     void Attack();
     virtual void Attack_Implementation();
 
+    UFUNCTION(BlueprintCallable, Category="Combat|Notifies")
+    void Reset();
+    
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Combat|Notifies")
     void OnComboAttackSaveNotify();
     virtual void OnComboAttackSaveNotify_Implementation();

@@ -50,6 +50,11 @@ void UGGAttackComponent::Attack_Implementation()
     PlayNextMontage();
 }
 
+void UGGAttackComponent::Reset()
+{
+    OnResetComboNotify();
+}
+
 void UGGAttackComponent::PlayMontage(const int MontageIndex) const
 {
     if (AnimComboSet->Montages.Num() == 0)
