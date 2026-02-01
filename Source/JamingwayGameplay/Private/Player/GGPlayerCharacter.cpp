@@ -3,9 +3,11 @@
 #include "Components/GGPlayerTargetComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "AttributeSets/CharacterAttributeSet.h"
 #include "Log.h"
 
 AGGPlayerCharacter::AGGPlayerCharacter()
+	:bHealthDroppedToZero(false)
 {
  	PrimaryActorTick.bCanEverTick = true;
 
@@ -35,6 +37,23 @@ void AGGPlayerCharacter::BeginPlay()
     Super::BeginPlay();
 
     UE_LOG(LogJamingwayGameplay, Log, TEXT("Hello World from the AGGPlayerCharacter"));
+}
+
+void AGGPlayerCharacter::OnHealthDroppedToZero(const FOnAttributeChangeData& Data)
+{
+	if (Data.NewValue <= 0.0f)
+    {
+        APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	    if(PlayerController)
+	    {
+		    DisableInput(PlayerController);
+			bHealthDroppedToZero = true;
+		}
+		else
+		{
+			UE_LOG(LogJamingwayGameplay, Log, TEXT("Invalid Player Controller"));
+		}
+	}
 }
 
 void AGGPlayerCharacter::PerformMove(float AxisX, float AxisY)
